@@ -7,7 +7,7 @@ Udacity Full Stack Web Developer Nanodegree Project : Linux Server Configuration
 ssh -i id_rsa grader@54.172.67.62 -p 2200
 
 ## Complete URL to hosted web application
-~~
+~~ http://54.172.67.62/catalog/2/
 
 ## Project Overview
 Take a baseline installation of a Linux server and prepare it to host a web applications. Secure your server from a number of attack vectors, install and configure a database server, and deploy one of your existing web applications onto it.
@@ -31,18 +31,14 @@ sudo apt-get autoremove # automatically remove packages that are no longer requi
 ### 3. Create a New User `grader` and give `grader` sudo  access
 
 1. Create a new user named grader `sudo adduser grader`  
-# grader password is '1234'
-# to confirm addition of the new user that should be listed in the output.`sudo cat /etc/passwd`
-2. Grant sudo access to grader `sudo visudo` 
-# Add: grader ALL=(ALL:ALL) ALL right below user privilege specifications and save the file(ˆx)
-3. Login as grader `sudo login grader`
+2. To confirm addition of the new user that should be listed in the output.`sudo cat /etc/passwd`
+3. Grant sudo access to grader:In `sudo visudo` add: grader ALL=(ALL:ALL) ALL right below user privilege specifications and save the file(ˆx)
+4. Login as grader `sudo login grader`
 
 
 ### 4. Create an SSH key pair for grader using the ssh-keygen tool
 
-1. create a directory on local machine and browse to It, then generate keys `ssh-keygen`
-# Enter file in which to save the key and give the name id_rsa
-# empty passphrase
+1. Create a directory on local machine and browse to It. Generate keys `ssh-keygen`, enter file in which to save the key and give the name id_rsa
 2. Copy the public key that is inside `cat id_rsa.pub` 
 
 ### 5. Add Public Key to Server
@@ -95,10 +91,10 @@ ssh -i id_rsa grader@54.172.67.62 -p 2200
 ### 10. Install and configure Apache to serve a Python mod_wsgi application
 
 1. Install Apache `sudo apt-get install apache2`  
-# Go to http://54.172.67.62/, if Apache is working correctly, a Apache2 Ubuntu Default Page will show up
-2. Install mod_wsgi `sudo apt-get install libapache2-mod-wsgi python-dev`
-3. Start wsgi mode `sudo a2enmod wsgi`
-4. Restart Apache `sudo service apache2 restart` 
+2. Go to http://54.172.67.62/, if Apache is working correctly, a Apache2 Ubuntu Default Page will show up
+3. Install mod_wsgi `sudo apt-get install libapache2-mod-wsgi python-dev`
+4. Start wsgi mode `sudo a2enmod wsgi`
+5. Restart Apache `sudo service apache2 restart` 
 
 ### 11. Install and configure PostgreSQL
 ```
