@@ -4,7 +4,7 @@ Udacity Full Stack Web Developer Nanodegree Project : Linux Server Configuration
 ## IP address and SSH port
 * Public IP : ~54.172.67.62~
 * SSH port : ~2200~
-ssh -i id_rsa grader@54.172.67.62 -p 2200
+*To connect: ssh -i id_rsa grader@54.172.67.62 -p 2200
 
 ## Complete URL to hosted web application
 ~~ http://54.172.67.62/catalog/2/
@@ -57,7 +57,7 @@ sudo service ssh restart
 ### 6. Change the SSH port from 22 to 2200.
 
 1. In the lightsail instance, add a custom port tcp 2200
-2. `sudo nano /etc/ssh/sshd_config`  # change port 22 to 2200 and save It
+2. `sudo nano /etc/ssh/sshd_config` # change port 22 to 2200 and save It and change `PermitRootLogin without-password` line to `PermitRootLogin no`
 3. restart ssh service `sudo service ssh restart`
 
 ### 7. Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123).
