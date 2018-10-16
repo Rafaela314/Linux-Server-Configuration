@@ -15,7 +15,7 @@ Take a baseline installation of a Linux server and prepare it to host a web appl
 ### How to complete this project?
 This project is linked to the [Configuring Linux Web Servers](https://classroom.udacity.com/courses/ud299) course, which teaches you to secure and set up a Linux server. By the end of this project, you will have one of your web applications running live on a secure web server.
 
-#### 1. Get your server.
+### 1. Get your server.
 To complete this project, you'll need a Linux server instance. We recommend using [Amazon Lightsail](https://lightsail.aws.amazon.com/) for this. If you don't already have an Amazon Web Services account, you'll need to set one up. Lightsail supports a lot of different instance types. An instance image is a particular software setup, including an operating system and optionally built-in applications. 
 1. First, choose "OS Only" (rather than "Apps + OS"). Second, choose Ubuntu as the operating system. Choose a plan, give your instance a hostname and wait for ot to start up.
 2. Log into it with SSH from your browser. When you SSH in, you'll be logged as the `ubuntu` user. An SSH window logged into the server instance. From here, it's just like any other Linux server.
@@ -29,24 +29,23 @@ sudo apt-get upgrade    # upgrade installed packages
 sudo apt-get autoremove # automatically remove packages that are no longer required
 ```
 ### 3. Create a New User `grader` and give `grader` sudo  access
-```
-sudo adduser grader # create a new user named grader
+
+1. Create a new user named grader `sudo adduser grader`  
 # grader password is '1234'
-sudo cat /etc/passwd # to confirm addition of the new user that should be listed in the output.
-sudo visudo 
+# to confirm addition of the new user that should be listed in the output.`sudo cat /etc/passwd`
+2. Grant sudo access to grader `sudo visudo` 
 # Add: grader ALL=(ALL:ALL) ALL right below user privilege specifications and save the file(ˆx)
-sudo login grader
-```
+3. Login as grader `sudo login grader`
+
 
 ### 4. Create an SSH key pair for grader using the ssh-keygen tool
-```
-# create a directory on local machine and browse to It
-ssh-keygen
+
+1. create a directory on local machine and browse to It, then generate keys `ssh-keygen`
 # Enter file in which to save the key and give the name id_rsa
 # empty passphrase
-cat id_rsa.pub #copy the public key that is inside
-```
-## 5. Add Public Key to Server
+2. Copy the public key that is inside `cat id_rsa.pub` 
+
+### 5. Add Public Key to Server
 
 ```
 #On Ubunto, logged in as grader:
@@ -60,11 +59,11 @@ sudo service ssh restart
 ```
 
 ### 6. Change the SSH port from 22 to 2200.
-```
-# In the lightsail instance, add a custom port tcp 2200
-sudo nano /etc/ssh/sshd_config  # change port 22 to 2200
-sudo service ssh restart        # restart ssh service
-```
+
+1. In the lightsail instance, add a custom port tcp 2200
+2. `sudo nano /etc/ssh/sshd_config`  # change port 22 to 2200 and save It
+3. restart ssh service `sudo service ssh restart`
+
 ### 7. Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123).
 - Warning: When changing the SSH port, make sure that the firewall is open for port 2200 first, so that you don't lock yourself out of the server.
 - When you change the SSH port, the Lightsail instance will no longer be accessible through the web app 'Connect using SSH' button. The button assumes the default port is being used. 
@@ -84,8 +83,7 @@ sudo ufw status                 # check ufw status after updates
 
 ```
 sudo dpkg-reconfigure tzdata #Configure the time zone
-
-sudo dpkg-reconfigure locales
+sudo dpkg-reconfigure locales #Configure locales
 export LC_ALL="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8"
 ```
@@ -94,17 +92,15 @@ export LC_CTYPE="en_US.UTF-8"
 ssh -i id_rsa grader@54.172.67.62 -p 2200
 ```
 
-## 10. Install and configure Apache to serve a Python mod_wsgi application
-```
-sudo apt-get install apache2 # Install Apache
-Go to http://54.172.67.62/, if Apache is working correctly, a Apache2 Ubuntu Default Page will show up
-sudo apt-get install libapache2-mod-wsgi python-dev # Install mod_wsgi
-sudo a2enmod wsgi
-sudo service apache2 restart #restart Apache
+### 10. Install and configure Apache to serve a Python mod_wsgi application
 
-```
+1. Install Apache `sudo apt-get install apache2`  
+# Go to http://54.172.67.62/, if Apache is working correctly, a Apache2 Ubuntu Default Page will show up
+2. Install mod_wsgi `sudo apt-get install libapache2-mod-wsgi python-dev`
+3. Start wsgi mode `sudo a2enmod wsgi`
+4. Restart Apache `sudo service apache2 restart` 
 
-## 11. Install and configure PostgreSQL
+### 11. Install and configure PostgreSQL
 ```
 sudo apt-get -qqy install postgresql python-psycopg2 # Install PostgreSQL
 sudo -u postgres psql # basic server set up
@@ -122,7 +118,7 @@ Inside the Flask application, the database connection is now performed with:
 engine = create_engine('postgresql://catalog:catalog@localhost/catalog') #edit the files catalog_database_setup.py and housesaleitems.py in accordance.
 ```
 
-## 12. Install git, clone and setup your Catalog App project.
+### 12. Install git, clone and setup your Catalog App project.
 
 1. Install Git using `sudo apt-get install git`
 2. Use `cd /var/www` to move to the /var/www directory 
@@ -138,7 +134,7 @@ sudo chown -R grader:grader /var/www/FlaskApp #Change the owner of the directory
 11. Create database schema `sudo python catalog_database_setup.py`
 12. `sudo python catalog_database_setup.py`
 
-## 13. Configure and Enable a New Virtual Host
+### 13. Configure and Enable a New Virtual Host
 1. Create FlaskApp.conf to edit: `sudo nano /etc/apache2/sites-available/000-default.conf`
 2. Add the following lines of code to the file to configure the virtual host. 
 
@@ -163,7 +159,7 @@ sudo chown -R grader:grader /var/www/FlaskApp #Change the owner of the directory
 	```
 3. Enable the virtual host with the following command: `sudo a2ensite FlaskApp`
 
-## 14. Create the .wsgi File
+### 14. Create the .wsgi File
 
 1. Create the .wsgi File under /var/www/FlaskApp: 
 	
